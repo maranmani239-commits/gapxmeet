@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FixIt – Home Services, On Demand</title>
+  <meta name="description" content="Book trusted AC mechanics, plumbers, electricians, cleaners and more in minutes. FixIt connects you with verified professionals near you." />
+  <meta property="og:title" content="FixIt – Home Services, On Demand" />
+  <meta property="og:description" content="Book trusted professionals in minutes. Loyalty discounts, live tracking, secure payments." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="favicon.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark: #0f172a;
+      --dark2: #1e293b;
+      --dark3: #334155;
+      --blue: #2563eb;
+      --blue-l: #eff6ff;
+      --green: #10b981;
+      --green-l: #dcfce7;
+      --amber: #f59e0b;
+      --text: #0f172a;
+      --muted: #64748b;
+      --faint: #94a3b8;
+      --border: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --radius: 14px;
+      --radius-sm: 9px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(15,23,42,0.97);
+      backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-logo { font-size: 28px; font-weight: 900; color: #fff; text-decoration: none; letter-spacing: -1px; }
+    .nav-logo span { color: #38bdf8; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta { background: var(--blue); color: #fff; padding: 9px 22px; border-radius: 9px; font-size: 14px; font-weight: 700; text-decoration: none; transition: background .2s; }
+    .nav-cta:hover { background: #1d4ed8; }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(145deg, #0f172a 0%, #1e3a8a 60%, #0f172a 100%);
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 80px 5% 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 70% 50%, rgba(37,99,235,0.25) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: flex; align-items: center; gap: 60px; }
+    .hero-text { flex: 1; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 6px 14px; font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 24px; }
+    .hero-badge span { width: 7px; height: 7px; background: #10b981; border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero h1 { font-size: clamp(36px,5vw,68px); font-weight: 900; color: #fff; line-height: 1.1; letter-spacing: -2px; margin-bottom: 20px; }
+    .hero h1 em { font-style: normal; color: #38bdf8; }
+    .hero p { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 520px; margin-bottom: 36px; line-height: 1.7; }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+    .btn-hero-primary { background: var(--blue); color: #fff; padding: 15px 32px; border-radius: 11px; font-size: 16px; font-weight: 800; text-decoration: none; transition: transform .15s, background .2s; display: inline-block; }
+    .btn-hero-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+    .btn-hero-outline { background: rgba(255,255,255,0.1); color: #fff; padding: 15px 32px; border-radius: 11px; font-size: 16px; font-weight: 700; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.25); transition: background .2s; display: inline-block; }
+    .btn-hero-outline:hover { background: rgba(255,255,255,0.18); }
+    .hero-trust { display: flex; gap: 28px; flex-wrap: wrap; }
+    .trust-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 500; }
+    .trust-item strong { color: #fff; font-weight: 800; }
+
+    /* Phone mockup */
+    .hero-visual { flex: 0 0 320px; display: flex; justify-content: center; }
+    .phone-wrap { position: relative; }
+    .phone-frame {
+      width: 280px; height: 560px;
+      background: #0f172a;
+      border-radius: 36px;
+      border: 6px solid #334155;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 28px; background: #0f172a; border-radius: 0 0 20px 20px; z-index: 10; }
+    .phone-screen { width: 100%; height: 100%; background: #f1f5f9; overflow: hidden; }
+    .phone-hero-bar { background: #1e3a8a; padding: 32px 14px 14px; }
+    .phone-hero-bar h3 { color: #fff; font-size: 15px; font-weight: 800; }
+    .phone-hero-bar p { color: rgba(255,255,255,0.7); font-size: 11px; margin-top: 2px; }
+    .chip-row { display: flex; gap: 6px; margin-top: 10px; overflow: hidden; }
+    .chip { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 4px 10px; color: #fff; font-size: 10px; font-weight: 700; white-space: nowrap; }
+    .phone-cards { padding: 10px; }
+    .phone-card { background: #fff; border-radius: 11px; border: 1px solid #e2e8f0; padding: 11px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .pc-left { display: flex; gap: 9px; align-items: center; }
+    .pc-avatar { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
+    .pc-name { font-size: 12px; font-weight: 800; color: #0f172a; }
+    .pc-sub { font-size: 10px; color: #64748b; }
+    .pc-price { font-size: 13px; font-weight: 900; color: #2563eb; }
+    .avail { font-size: 9px; background: #dcfce7; color: #15803d; padding: 2px 7px; border-radius: 10px; font-weight: 700; margin-top: 2px; display: inline-block; }
+
+    /* ── Section common ── */
+    section { padding: 80px 5%; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 12px; font-weight: 800; color: var(--blue); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+    .section-title { font-size: clamp(28px,3.5vw,44px); font-weight: 900; color: var(--text); line-height: 1.15; letter-spacing: -1px; margin-bottom: 16px; }
+    .section-sub { font-size: 18px; color: var(--muted); max-width: 580px; line-height: 1.7; }
+
+    /* ── Services ── */
+    .services-section { background: var(--bg); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 40px; }
+    .svc-card { background: #fff; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 22px 14px; text-align: center; cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s; }
+    .svc-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); border-color: var(--blue); }
+    .svc-icon { font-size: 32px; margin-bottom: 10px; }
+    .svc-name { font-size: 13px; font-weight: 700; color: var(--text); }
+    .svc-count { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+    /* ── How it works ── */
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; margin-top: 48px; }
+    .step-card { text-align: center; padding: 10px; }
+    .step-num { width: 52px; height: 52px; border-radius: 14px; background: var(--blue); color: #fff; font-size: 22px; font-weight: 900; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; }
+    .step-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 9px; color: var(--text); }
+    .step-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── Features ── */
+    .features-section { background: var(--dark); }
+    .features-section .section-title { color: #fff; }
+    .features-section .section-label { color: #38bdf8; }
+    .features-section .section-sub { color: rgba(255,255,255,0.6); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 48px; }
+    .feat-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); padding: 24px; transition: background .2s; }
+    .feat-card:hover { background: rgba(255,255,255,0.1); }
+    .feat-icon { font-size: 30px; margin-bottom: 14px; }
+    .feat-card h3 { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .feat-card p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+    .feat-tag { display: inline-block; margin-top: 10px; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+    /* ── Discount ladder ── */
+    .discount-section { background: var(--bg); }
+    .ladder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 40px; }
+    .ladder-card { background: #fff; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 20px; transition: transform .2s; }
+    .ladder-card:hover { transform: translateY(-2px); }
+    .ladder-card.gold { border-color: var(--amber); background: #fffbeb; }
+    .ladder-dot { width: 14px; height: 14px; border-radius: 50%; margin-bottom: 12px; }
+    .ladder-card h3 { font-size: 22px; font-weight: 900; margin-bottom: 4px; }
+    .ladder-card p { font-size: 13px; color: var(--muted); }
+    .ladder-card .booking { font-size: 11px; font-weight: 700; margin-top: 8px; color: var(--muted); }
+
+    /* ── Testimonials ── */
+    .testimonials-section { background: #fff; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 40px; }
+    .review-card { background: var(--bg); border-radius: var(--radius); padding: 24px; }
+    .review-stars { color: var(--amber); font-size: 16px; margin-bottom: 12px; }
+    .review-text { font-size: 15px; color: var(--text); line-height: 1.65; margin-bottom: 18px; font-style: italic; }
+    .reviewer { display: flex; align-items: center; gap: 12px; }
+    .reviewer-avatar { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; }
+    .reviewer-name { font-size: 14px; font-weight: 700; color: var(--text); }
+    .reviewer-loc { font-size: 12px; color: var(--muted); }
+
+    /* ── Pro CTA ── */
+    .pro-cta-section {
+      background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+      padding: 80px 5%;
+    }
+    .pro-cta-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; gap: 48px; flex-wrap: wrap; }
+    .pro-cta-text { flex: 1; min-width: 260px; }
+    .pro-cta-text .section-label { color: #6ee7b7; }
+    .pro-cta-text .section-title { color: #fff; font-size: clamp(26px,3vw,40px); }
+    .pro-cta-text p { color: rgba(255,255,255,0.7); font-size: 16px; margin-top: 10px; }
+    .pro-cta-stats { display: flex; gap: 28px; flex-wrap: wrap; }
+    .pro-stat { text-align: center; }
+    .pro-stat strong { display: block; font-size: 32px; font-weight: 900; color: #fff; }
+    .pro-stat span { font-size: 13px; color: rgba(255,255,255,0.6); }
+    .btn-pro { background: var(--green); color: #fff; padding: 15px 32px; border-radius: 11px; font-size: 16px; font-weight: 800; text-decoration: none; display: inline-block; transition: background .2s, transform .15s; margin-top: 24px; }
+    .btn-pro:hover { background: #059669; transform: translateY(-1px); }
+
+    /* ── Download section ── */
+    .download-section { background: var(--dark); padding: 80px 5%; text-align: center; }
+    .download-section .section-title { color: #fff; }
+    .download-section .section-sub { color: rgba(255,255,255,0.6); margin: 0 auto 40px; }
+    .store-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .store-btn { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2); border-radius: 13px; padding: 14px 24px; cursor: pointer; text-decoration: none; color: #fff; transition: background .2s; }
+    .store-btn:hover { background: rgba(255,255,255,0.18); }
+    .store-icon { font-size: 28px; }
+    .store-text small { display: block; font-size: 11px; color: rgba(255,255,255,0.6); }
+    .store-text strong { font-size: 18px; font-weight: 800; }
+    .web-access { margin-top: 20px; color: rgba(255,255,255,0.5); font-size: 14px; }
+    .web-access a { color: #38bdf8; font-weight: 700; text-decoration: none; }
+    .web-access a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer { background: #0a0f1e; padding: 48px 5% 28px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand .nav-logo { font-size: 24px; display: inline-block; margin-bottom: 12px; }
+    .footer-brand p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.7; max-width: 260px; }
+    .footer-col h4 { color: #fff; font-size: 13px; font-weight: 800; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-col a { display: block; color: rgba(255,255,255,0.45); font-size: 13px; text-decoration: none; margin-bottom: 8px; transition: color .2s; }
+    .footer-col a:hover { color: rgba(255,255,255,0.8); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.35); }
+    .footer-badges { display: flex; gap: 12px; }
+    .footer-badge { font-size: 11px; color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 6px; }
+
+    /* ── Stats bar ── */
+    .stats-bar { background: var(--blue); padding: 28px 5%; }
+    .stats-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
+    .stat-item { text-align: center; color: #fff; }
+    .stat-item strong { display: block; font-size: 32px; font-weight: 900; }
+    .stat-item span { font-size: 13px; color: rgba(255,255,255,0.75); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .hero-inner { flex-direction: column; text-align: center; }
+      .hero-visual { display: none; }
+      .hero-btns { justify-content: center; }
+      .hero-trust { justify-content: center; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .pro-cta-inner { flex-direction: column; text-align: center; }
+      .pro-cta-stats { justify-content: center; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 60px 4%; }
+      .footer-top { grid-template-columns: 1fr; }
+    }
+
+    /* Mobile nav drawer */
+    .mobile-nav { position: fixed; inset: 0; background: var(--dark); z-index: 200; display: none; flex-direction: column; padding: 70px 5% 30px; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { color: #fff; text-decoration: none; font-size: 22px; font-weight: 700; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+
+    /* Smooth entrance */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity .5s, transform .5s; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-logo" href="#">Fix<span>It</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pro">For Pros</a></li>
+  </ul>
+  <a class="nav-cta" href="#download">Get the App</a>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile nav -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#how" onclick="toggleMenu()">How it works</a>
+  <a href="#features" onclick="toggleMenu()">Features</a>
+  <a href="#pro" onclick="toggleMenu()">For Pros</a>
+  <a href="#download" onclick="toggleMenu()" style="color:#38bdf8">Get the App</a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge"><span></span> 4,200+ verified professionals</div>
+      <h1>Home services,<br /><em>on demand</em></h1>
+      <p>Book trusted AC mechanics, plumbers, electricians, and cleaners in minutes. Track in real-time, chat directly, and pay securely — all in one app.</p>
+      <div class="hero-btns">
+        <a href="#download" class="btn-hero-primary">📱 Download App</a>
+        <a href="#how" class="btn-hero-outline">How it works →</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><strong>⭐ 4.8</strong> avg rating</div>
+        <div class="trust-item"><strong>15 min</strong> avg response</div>
+        <div class="trust-item"><strong>₹0</strong> booking fee</div>
+        <div class="trust-item"><strong>✓</strong> Verified pros</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-wrap">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-hero-bar">
+              <h3>👋 Hi, Arjun!</h3>
+              <p>📍 Andheri, Mumbai</p>
+              <div class="chip-row">
+                <div class="chip">❄️ AC</div>
+                <div class="chip">🔧 Plumber</div>
+                <div class="chip">⚡ Electric</div>
+                <div class="chip">🧹 Cleaner</div>
+              </div>
+            </div>
+            <div class="phone-cards">
+              <p style="font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;margin-bottom:8px;">🏙️ Pros Near You</p>
+              <div class="phone-card">
+                <div class="pc-left">
+                  <div class="pc-avatar" style="background:#dbeafe;color:#1e40af">RK</div>
+                  <div>
+                    <div class="pc-name">Ravi Kumar ✓</div>
+                    <div class="pc-sub">❄️ AC Mechanic · Andheri</div>
+                    <div class="avail">✅ Available</div>
+                  </div>
+                </div>
+                <div style="text-align:right">
+                  <div class="pc-price">₹600</div>
+                  <div style="font-size:9px;color:#64748b">/visit</div>
+                  <div style="font-size:11px;color:#f59e0b;margin-top:2px">⭐4.8</div>
+                </div>
+              </div>
+              <div class="phone-card">
+                <div class="pc-left">
+                  <div class="pc-avatar" style="background:#dcfce7;color:#166534">SP</div>
+                  <div>
+                    <div class="pc-name">Suresh Patel ✓</div>
+                    <div class="pc-sub">🔧 Plumber · Bandra</div>
+                    <div class="avail">✅ Available</div>
+                  </div>
+                </div>
+                <div style="text-align:right">
+                  <div class="pc-price">₹450</div>
+                  <div style="font-size:9px;color:#64748b">/visit</div>
+                  <div style="font-size:11px;color:#f59e0b;margin-top:2px">⭐4.6</div>
+                </div>
+              </div>
+              <div class="phone-card" style="border-color:#f59e0b;position:relative">
+                <div style="position:absolute;top:-8px;right:10px;background:#f59e0b;color:#fff;font-size:9px;font-weight:900;padding:2px 8px;border-radius:10px;">🏆 -15%</div>
+                <div class="pc-left">
+                  <div class="pc-avatar" style="background:#fef3c7;color:#92400e">AS</div>
+                  <div>
+                    <div class="pc-name">Amit Sharma ✓</div>
+                    <div class="pc-sub">⚡ Electrician · Andheri</div>
+                    <div class="avail">✅ Available</div>
+                  </div>
+                </div>
+                <div style="text-align:right">
+                  <div style="font-size:9px;color:#94a3b8;text-decoration:line-through">₹500</div>
+                  <div class="pc-price" style="color:#10b981">₹425</div>
+                  <div style="font-size:11px;color:#f59e0b;margin-top:2px">⭐4.9</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats bar -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><strong>4,200+</strong><span>Verified Professionals</span></div>
+    <div class="stat-item"><strong>38,000+</strong><span>Bookings Completed</span></div>
+    <div class="stat-item"><strong>12 cities</strong><span>Across India</span></div>
+    <div class="stat-item"><strong>4.8★</strong><span>Average Rating</span></div>
+  </div>
+</div>
+
+<!-- Services -->
+<section id="services" class="services-section">
+  <div class="section-inner">
+    <div class="section-label fade-in">What we offer</div>
+    <h2 class="section-title fade-in">Every home service,<br />one platform</h2>
+    <p class="section-sub fade-in">From air conditioning to pest control — find vetted professionals for any job, any time.</p>
+    <div class="services-grid">
+      <div class="svc-card fade-in"><div class="svc-icon">❄️</div><div class="svc-name">AC Mechanic</div><div class="svc-count">840+ pros</div></div>
+      <div class="svc-card fade-in"><div class="svc-icon">🔧</div><div class="svc-name">Plumber</div><div class="svc-count">620+ pros</div></div>
+      <div class="svc-card fade-in"><div class="svc-icon">⚡</div><div class="svc-name">Electrician</div><div class="svc-count">710+ pros</div></div>
+      <div class="svc-card fade-in"><div class="svc-icon">🪚</div><div class="svc-name">Carpenter</div><div class="svc-count">380+ pros</div></div>
+      <div class="svc-card fade-in"><div class="svc-icon">🖌️</div><div class="svc-name">Painter</div><div class="svc-count">290+ pros</div></div>
+      <div class="svc-card fade-in"><div class="svc-icon">🧹</div><div class="svc-name">Cleaner</div><div class="svc-count">510+ pros</div></div>
+      <div class="svc-card fade-in"><div class="svc-icon">🔌</div><div class="svc-name">Appliance Repair</div><div class="svc-count">320+ pros</div></div>
+      <div class="svc-card fade-in"><div class="svc-icon">🐛</div><div class="svc-name">Pest Control</div><div class="svc-count">180+ pros</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section id="how">
+  <div class="section-inner">
+    <div class="section-label fade-in">Simple process</div>
+    <h2 class="section-title fade-in">Fixed in 4 steps</h2>
+    <p class="section-sub fade-in">From opening the app to problem solved — faster than ever before.</p>
+    <div class="steps-grid">
+      <div class="step-card fade-in">
+        <div class="step-num">1</div>
+        <h3>Choose a service</h3>
+        <p>Browse 8 categories. Filter by location, price, and availability. See verified ratings and real reviews.</p>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-num">2</div>
+        <h3>Book instantly</h3>
+        <p>Select your date, describe the issue, and confirm. Zero booking fees. Loyalty discounts applied automatically.</p>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-num">3</div>
+        <h3>Track in real-time</h3>
+        <p>Live status updates from requested → accepted → in-progress → completed. Chat directly with your pro.</p>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-num">4</div>
+        <h3>Pay &amp; rate</h3>
+        <p>Pay via UPI, card, or cash after the job is done. Leave a rating to help others and unlock better discounts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="features-section">
+  <div class="section-inner">
+    <div class="section-label fade-in">Why FixIt</div>
+    <h2 class="section-title fade-in">Built different</h2>
+    <p class="section-sub fade-in">We obsessed over every detail so your experience is smooth from booking to payment.</p>
+    <div class="features-grid">
+      <div class="feat-card fade-in">
+        <div class="feat-icon">🗺️</div>
+        <h3>Live Distance &amp; Navigation</h3>
+        <p>See exactly how far away your pro is. One tap opens Google Maps navigation directly to your door.</p>
+        <span class="feat-tag" style="background:#eff6ff;color:#1d4ed8">Real-time</span>
+      </div>
+      <div class="feat-card fade-in">
+        <div class="feat-icon">💬</div>
+        <h3>In-App Chat</h3>
+        <p>Message your pro directly through the booking. No need to share numbers. Automatic replies keep you informed.</p>
+        <span class="feat-tag" style="background:#dcfce7;color:#15803d">Built-in</span>
+      </div>
+      <div class="feat-card fade-in">
+        <div class="feat-icon">🎁</div>
+        <h3>Loyalty Discount Ladder</h3>
+        <p>Save a pro. Book again. Get 5% → 10% → 15% discounts automatically on every repeat visit.</p>
+        <span class="feat-tag" style="background:#fef3c7;color:#92400e">Auto-applied</span>
+      </div>
+      <div class="feat-card fade-in">
+        <div class="feat-icon">✅</div>
+        <h3>Verified Professionals</h3>
+        <p>Every pro is ID-verified, background-checked, and rated. Blocked automatically if complaints exceed threshold.</p>
+        <span class="feat-tag" style="background:#eff6ff;color:#1d4ed8">Verified</span>
+      </div>
+      <div class="feat-card fade-in">
+        <div class="feat-icon">📊</div>
+        <h3>Status Tracking</h3>
+        <p>5-stage progress tracker: Requested → Accepted → In Progress → Completed → Paid. Always know what's happening.</p>
+        <span class="feat-tag" style="background:#f5f3ff;color:#6d28d9">Live</span>
+      </div>
+      <div class="feat-card fade-in">
+        <div class="feat-icon">💳</div>
+        <h3>Flexible Payment</h3>
+        <p>UPI, card, or cash — pay only after the job is done to your satisfaction. Zero upfront payment.</p>
+        <span class="feat-tag" style="background:#dcfce7;color:#15803d">Pay-after</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Discount Ladder -->
+<section class="discount-section">
+  <div class="section-inner">
+    <div class="section-label fade-in">Loyalty rewards</div>
+    <h2 class="section-title fade-in">Save a pro.<br />Get rewarded.</h2>
+    <p class="section-sub fade-in">Every time you rebook a saved professional, your discount automatically increases. The more you use FixIt, the less you pay.</p>
+    <div class="ladder-grid">
+      <div class="ladder-card fade-in">
+        <div class="ladder-dot" style="background:#94a3b8"></div>
+        <h3 style="color:#64748b">No discount</h3>
+        <p>First-ever booking with a pro. Save their profile to start the ladder.</p>
+        <div class="booking">1st booking</div>
+      </div>
+      <div class="ladder-card fade-in">
+        <div class="ladder-dot" style="background:#10b981"></div>
+        <h3 style="color:#10b981">5% off</h3>
+        <p>Welcome back discount. Automatically applied on your second booking.</p>
+        <div class="booking">2nd booking</div>
+      </div>
+      <div class="ladder-card fade-in">
+        <div class="ladder-dot" style="background:#2563eb"></div>
+        <h3 style="color:#2563eb">10% off</h3>
+        <p>Repeat customer reward. You trust them, they take care of you.</p>
+        <div class="booking">3rd booking</div>
+      </div>
+      <div class="ladder-card gold fade-in">
+        <div class="ladder-dot" style="background:#f59e0b"></div>
+        <h3 style="color:#b45309">15% off 🏆</h3>
+        <p>Loyal customer status. Maximum discount, forever, on every visit after.</p>
+        <div class="booking">4th+ bookings</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials-section">
+  <div class="section-inner">
+    <div class="section-label fade-in">Real reviews</div>
+    <h2 class="section-title fade-in">Loved by thousands</h2>
+    <div class="reviews-grid">
+      <div class="review-card fade-in">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"My AC was dead in June heat. Ravi showed up in 45 minutes and fixed it perfectly. The live tracking was incredible — I could see exactly when he was arriving."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar" style="background:#dbeafe;color:#1e40af">AM</div>
+          <div>
+            <div class="reviewer-name">Arjun Mehta</div>
+            <div class="reviewer-loc">📍 Andheri, Mumbai</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card fade-in">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The loyalty discount actually works! By my 4th booking with the same plumber I was saving 15%. It's the only app I use for home services now."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar" style="background:#fce7f3;color:#9d174d">PS</div>
+          <div>
+            <div class="reviewer-name">Priya Sharma</div>
+            <div class="reviewer-loc">📍 Bandra, Mumbai</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card fade-in">
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-text">"Super easy to book. I described the electrical issue in the chat and Amit already had the parts when he arrived. Saved so much time compared to calling around."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar" style="background:#dcfce7;color:#166534">RK</div>
+          <div>
+            <div class="reviewer-name">Raj Kumar</div>
+            <div class="reviewer-loc">📍 Powai, Mumbai</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- For Pros CTA -->
+<section id="pro" class="pro-cta-section">
+  <div class="pro-cta-inner">
+    <div class="pro-cta-text">
+      <div class="section-label fade-in">For professionals</div>
+      <h2 class="section-title fade-in">Grow your income<br />with FixIt Pro</h2>
+      <p>Join 4,200+ verified pros already earning more. Manage bookings, track your earnings, and build a loyal customer base — all from your phone.</p>
+      <a href="#download" class="btn-pro">Join as a Professional →</a>
+    </div>
+    <div class="pro-cta-stats fade-in">
+      <div class="pro-stat"><strong>₹31,200</strong><span>Avg annual earnings</span></div>
+      <div class="pro-stat"><strong>124</strong><span>Avg reviews per pro</span></div>
+      <div class="pro-stat"><strong>24/7</strong><span>Booking availability</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Download -->
+<section id="download" class="download-section">
+  <div class="section-inner">
+    <div class="section-label" style="color:#38bdf8;text-align:center">Download now</div>
+    <h2 class="section-title">Get FixIt on your device</h2>
+    <p class="section-sub">Available on iOS, Android, and the web. One account, all devices.</p>
+    <div class="store-btns">
+      <a href="#" class="store-btn">
+        <span class="store-icon">🍎</span>
+        <div class="store-text"><small>Download on the</small><strong>App Store</strong></div>
+      </a>
+      <a href="#" class="store-btn">
+        <span class="store-icon">🤖</span>
+        <div class="store-text"><small>Get it on</small><strong>Google Play</strong></div>
+      </a>
+      <a href="#" class="store-btn">
+        <span class="store-icon">🌐</span>
+        <div class="store-text"><small>Open in</small><strong>Browser</strong></div>
+      </a>
+    </div>
+    <p class="web-access">Or run locally: <a href="#">expo start → scan QR</a></p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="nav-logo" href="#">Fix<span>It</span></a>
+        <p>India's most trusted on-demand home services platform. Connecting homeowners with verified professionals since 2024.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="#">AC Mechanic</a>
+        <a href="#">Plumber</a>
+        <a href="#">Electrician</a>
+        <a href="#">Carpenter</a>
+        <a href="#">Cleaner</a>
+        <a href="#">All Services</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Blog</a>
+        <a href="#">Press</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Safety</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Pro Portal</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 FixIt Home Services Pvt. Ltd. All rights reserved.</p>
+      <div class="footer-badges">
+        <div class="footer-badge">🔒 SSL Secured</div>
+        <div class="footer-badge">✓ ISO 9001</div>
+        <div class="footer-badge">🇮🇳 Made in India</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav
+  function toggleMenu() {
+    document.getElementById('mobile-nav').classList.toggle('open');
+  }
+
+  // Fade-in on scroll
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  fadeEls.forEach(el => observer.observe(el));
+
+  // Smooth nav highlight
+  window.addEventListener('scroll', () => {
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      const section = document.querySelector(a.getAttribute('href'));
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        a.style.color = rect.top <= 80 && rect.bottom > 80 ? '#fff' : 'rgba(255,255,255,0.7)';
+      }
+    });
+  });
+</script>
+</body>
+</html>
