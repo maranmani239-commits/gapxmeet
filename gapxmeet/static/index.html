@@ -1102,17 +1102,28 @@ function _stopCurrent(){
 }
 
 function _drainTTSQueue(){
-  if(!_ttsQueue.length||!audioOn){_ttsPlaying=false;_ttsSpeakerActive=null;return;}
+  if(!_ttsQueue.length||!audioOn){
+    _ttsPlaying=false;_ttsSpeakerActive=null;
+    // Restore mic when TTS queue is empty
+    if(localStream&&!micMuted)localStream.getAudioTracks().forEach(t=>t.enabled=true);
+    return;
+  }
   const item=_ttsQueue.shift();
   ttsChunks=item.chunks; ttsLang=item.lang; ttsIdx=0;
   _ttsPlaying=true; _ttsSpeakerActive=item.speaker;
+  // Mute mic while TTS plays to prevent feedback loop
+  if(localStream&&!micMuted)localStream.getAudioTracks().forEach(t=>t.enabled=false);
   _playNextChunk();
 }
 
 function _playNextChunk(){
   if(!audioOn||ttsIdx>=ttsChunks.length){
     _ttsPlaying=false; _ttsSpeakerActive=null;
-    setTimeout(_drainTTSQueue,100);
+    // Restore mic after TTS finishes, with small delay
+    setTimeout(()=>{
+      if(localStream&&!micMuted)localStream.getAudioTracks().forEach(t=>t.enabled=true);
+      _drainTTSQueue();
+    },300);
     return;
   }
   const chunk=ttsChunks[ttsIdx++];
